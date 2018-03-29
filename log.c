@@ -27,7 +27,7 @@
 #include "log.h"
 
 int log_to_stderr = 0;
-int acpid_debug = 0;
+int debug_level = 0;
 
 int
 #ifdef __GNUC__
@@ -35,7 +35,7 @@ __attribute__((format(printf, 2, 3)))
 #endif
 acpid_log(int level, const char *fmt, ...)
 {
-	if (level == LOG_DEBUG && !acpid_debug) return 0;
+	if (level == LOG_DEBUG && !debug_level) return 0;
 	va_list args;
 	va_start(args, fmt);
 

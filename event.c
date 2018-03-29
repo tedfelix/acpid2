@@ -210,7 +210,7 @@ acpid_cleanup_rules(int do_detach)
 
 	lock_rules();
 
-	if (acpid_debug >= 3) {
+	if (debug_level >= 3) {
 		acpid_log(LOG_DEBUG, "cleaning up rules");
 	}
 
@@ -312,7 +312,7 @@ parse_file(int fd_rule, const char *file)
 			    file, line);
 			continue;
 		}
-		if (acpid_debug >= 3) {
+		if (debug_level >= 3) {
 			acpid_log(LOG_DEBUG, "    key=\"%s\" val=\"%s\"",
 			    key, val);
 		}
@@ -595,7 +595,7 @@ acpid_handle_event(const char *event)
 					    p->type);
 				}
 			} else {
-				if (acpid_debug >= 3 && logevents) {
+				if (debug_level >= 3 && logevents) {
 					acpid_log(LOG_INFO,
 					    "rule from %s did not match",
 					    p->origin);
@@ -633,7 +633,7 @@ signals_handled(void)
 static void
 lock_rules(void)
 {
-	if (acpid_debug >= 4) {
+	if (debug_level >= 4) {
 		acpid_log(LOG_DEBUG, "blocking signals for rule lock");
 	}
 	sigprocmask(SIG_BLOCK, signals_handled(), NULL);
@@ -642,7 +642,7 @@ lock_rules(void)
 static void
 unlock_rules(void)
 {
-	if (acpid_debug >= 4) {
+	if (debug_level >= 4) {
 		acpid_log(LOG_DEBUG, "unblocking signals for rule lock");
 	}
 	sigprocmask(SIG_UNBLOCK, signals_handled(), NULL);
@@ -683,7 +683,7 @@ do_cmd_rule(struct rule *rule, const char *event)
 		signal(SIGPIPE, SIG_DFL);
 		sigprocmask(SIG_UNBLOCK, signals_handled(), NULL);
 
-		if (acpid_debug && logevents) {
+		if (debug_level && logevents) {
 			fprintf(stdout, "BEGIN HANDLER MESSAGES\n");
 		}
 		umask(0077);
@@ -695,7 +695,7 @@ do_cmd_rule(struct rule *rule, const char *event)
 
 	/* parent */
 	waitpid(pid, &status, 0);
-	if (acpid_debug && logevents) {
+	if (debug_level && logevents) {
 		fprintf(stdout, "END HANDLER MESSAGES\n");
 	}
 
@@ -769,7 +769,7 @@ safe_write(int fd, const char *buf, int len)
 	} while (ttl < len && ntries);
 
 	if (!ntries) {
-		if (acpid_debug >= 2) {
+		if (debug_level >= 2) {
 			acpid_log(LOG_ERR, "safe_write() timed out");
 		}
 		return r;
@@ -806,7 +806,7 @@ parse_cmd(const char *cmd, const char *event)
 		}
 		buf[i++] = *p++;
 	}
-	if (acpid_debug >= 2) {
+	if (debug_level >= 2) {
 		acpid_log(LOG_DEBUG, "expanded \"%s\" -> \"%s\"", cmd, buf);
 	}
 

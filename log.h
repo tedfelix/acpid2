@@ -30,7 +30,7 @@
 extern int log_to_stderr;
 
 /* Global debug level. */
-extern int acpid_debug;
+extern int debug_level;
 
 extern int acpid_log(int level, const char *fmt, ...) __attribute__((format(printf,2,3)));
 

@@ -253,7 +253,7 @@ handle_cmdline(int *argc, char ***argv)
 			clientmax = strtol(optarg, NULL, 0);
 			break;
 		case 'd':
-			acpid_debug++;
+			debug_level++;
 			break;
 		case 'e':
 			eventfile = optarg;
