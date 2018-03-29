@@ -21,9 +21,9 @@ default).
 \fIRules\fP are defined by simple configuration files.  \fBacpid\fP
 will look in a configuration directory (\fI/etc/acpi/events\fP by default),
 and parse all regular files with names that consist entirely of upper and
-lower case letters, digits, underscores, and hyphens (similar to 
-run-parts(8)).
-.\" that do not begin with a period ('.') or end with a tilde (~).  
+lower case letters, digits, underscores, and hyphens (similar to
+.BR run-parts (8))
+that do not begin with a period ('.') or end with a tilde (~).
 Each file must define two things: an \fIevent\fP and an
 \fIaction\fP.  Any blank lines, or lines where the first character is a
 hash ('#') are ignored.  Extraneous lines are flagged as warnings, but
@@ -32,7 +32,9 @@ and the value.  The key can be up to 63 characters, and is case-insensitive
 (but whitespace matters).  The value can be up to 511 characters, and is
 case and whitespace sensitive.
 .PP
-The event value is a regular expression (see regcomp(3)), against which events are matched.
+The event value is a regular expression (see
+.BR regcomp (3)),
+against which events are matched.
 .PP
 The action value is a commandline, which will be invoked via \fI/bin/sh\fP
 whenever an event matching the rule in question occurs.  The commandline may
@@ -64,7 +66,8 @@ socket except in the case of a SIGHUP or \fBacpid\fP exiting.
 For faster startup, this socket can be passed in as stdin so that \fBacpid\fP
 need not create the socket.  In addition, if a socket is passed in as stdin, 
 \fBacpid\fP will not daemonize.  It will be run in foreground.  This behavior 
-is provided to support systemd(1).
+is provided to support
+.BR systemd (1).
 .PP
 .B acpid
 will log all of its activities, as well as the stdout and stderr of any
@@ -170,13 +173,19 @@ finding the most common sources of ACPI-related problems.
 .PP
 When troubleshooting \fBacpid\fP, it is important to be aware that other parts
 of a system might be handling ACPI events.
-\fBsystemd\fP(1) is capable of handling the power switch and various other
+.BR systemd (1)
+is capable of handling the power switch and various other
 events that are commonly handled by \fBacpid\fP.  See the description of
-HandlePowerKey in \fBlogind.conf\fP(5) for more.  Some window managers also
+HandlePowerKey in
+.BR logind.conf (5)
+for more.  Some window managers also
 take over \fBacpid\fP's normal handling of the power button and other events.
 .PP
-kacpimon(8) can be used to verify that the expected ACPI events are
-coming in.  See the man page for kacpimon(8) for the proper procedure.
+.BR kacpimon (8)
+can be used to verify that the expected ACPI events are
+coming in.  See the man page for
+.BR kacpimon (8)
+for the proper procedure.
 If the events aren't
 coming in, you've probably got a kernel driver issue.
 .PP
@@ -218,8 +227,14 @@ to the window manager to handle this event.
 There are no known bugs.  To file bug reports, see \fBPROJECT WEBSITE\fP 
 below.
 .SH SEE ALSO
-regcomp(3), sh(1), socket(2), connect(2), init(1), systemd(1), 
-acpi_listen(8), kacpimon(8)
+.BR regcomp (3)
+.BR sh (1)
+.BR socket (2)
+.BR connect (2)
+.BR init (1)
+.BR systemd (1)
+.BR acpi_listen (8)
+.BR kacpimon (8)
 .SH PROJECT WEBSITE
 http://sourceforge.net/projects/acpid2/
 .SH AUTHORS
