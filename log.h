@@ -26,11 +26,11 @@
 /* for LOG_ERR, LOG_DEBUG, LOG_INFO, etc... */
 #include <syslog.h>
 
-/*
- * Set to 1 to send LOG_DEBUG logging to stderr, zero to ignore LOG_DEBUG
- * logging.  Default is zero.
- */
-extern int log_debug_to_stderr;
+/* Set to 1 to send logging to stderr.  Default is zero. */
+extern int log_to_stderr;
+
+/* Global debug level. */
+extern int acpid_debug;
 
 extern int acpid_log(int level, const char *fmt, ...) __attribute__((format(printf,2,3)));
 

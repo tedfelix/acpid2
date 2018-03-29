@@ -26,7 +26,8 @@
 
 #include "log.h"
 
-int log_debug_to_stderr = 0;
+int log_to_stderr = 0;
+int acpid_debug = 0;
 
 int
 #ifdef __GNUC__
@@ -34,23 +35,17 @@ __attribute__((format(printf, 2, 3)))
 #endif
 acpid_log(int level, const char *fmt, ...)
 {
+	if (level == LOG_DEBUG && !acpid_debug) return 0;
 	va_list args;
+	va_start(args, fmt);
 
-	if (level == LOG_DEBUG) {
-		/* if "-d" has been specified */
-		if (log_debug_to_stderr) {
-			/* send debug output to stderr */
-			va_start(args, fmt);
-			vfprintf(stderr, fmt, args);
-			va_end(args);
-
-            fprintf(stderr, "\n");
-		}
+	if (log_to_stderr) {
+		vfprintf(stderr, fmt, args);
+		fprintf(stderr, "\n");
 	} else {
-		va_start(args, fmt);
 		vsyslog(level, fmt, args);
-		va_end(args);
 	}
 
+	va_end(args);
 	return 0;
 }

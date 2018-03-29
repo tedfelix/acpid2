@@ -52,9 +52,6 @@ static int create_pidfile(void);
 static void clean_exit(int sig);
 static void reload_conf(int sig);
 
-/* global debug level */
-int acpid_debug;
-
 /* do we log event info? */
 int logevents;
 
@@ -82,7 +79,10 @@ main(int argc, char **argv)
 	close_fds();
 
 	/* open the log */
-	open_log();
+	if (foreground)
+		log_to_stderr = 1;
+	else
+		open_log();
 
 	/* if we're running in the background, and we're not being started */
 	/* by systemd */
@@ -218,7 +218,7 @@ handle_cmdline(int *argc, char ***argv)
 	const char *opts_help[] = {
 		"Set the configuration directory.",	/* confdir */
 		"Set the limit on non-root socket connections.",/* clientmax */
-		"Increase debugging level (implies -f).",/* debug */
+		"Increase debugging level.",/* debug */
 		"Use the specified file for events.",	/* eventfile */
 		"Run in the foreground.",		/* foreground */
 		"Log all event activity.",		/* logevents */
@@ -253,9 +253,7 @@ handle_cmdline(int *argc, char ***argv)
 			clientmax = strtol(optarg, NULL, 0);
 			break;
 		case 'd':
-			foreground = 1;
 			acpid_debug++;
-            log_debug_to_stderr = 1;
 			break;
 		case 'e':
 			eventfile = optarg;
@@ -392,9 +390,6 @@ open_log(void)
 
 	/* open the syslog */
 	log_opts = LOG_CONS|LOG_NDELAY;
-	if (acpid_debug) {
-		log_opts |= LOG_PERROR;
-	}
 	openlog(PACKAGE, log_opts, LOG_DAEMON);
 }
 
@@ -419,12 +414,12 @@ std2null(void)
 		close(nullfd);
 		return -1;
 	}
-	if (!acpid_debug && dup2(nullfd, STDOUT_FILENO) != STDOUT_FILENO) {
+	if (!log_to_stderr && dup2(nullfd, STDOUT_FILENO) != STDOUT_FILENO) {
 		acpid_log(LOG_ERR, "dup2() stdout: %s", strerror(errno));
 		close(nullfd);
 		return -1;
 	}
-	if (!acpid_debug && dup2(nullfd, STDERR_FILENO) != STDERR_FILENO) {
+	if (!log_to_stderr && dup2(nullfd, STDERR_FILENO) != STDERR_FILENO) {
 		acpid_log(LOG_ERR, "dup2() stderr: %s", strerror(errno));
 		close(nullfd);
 		return -1;

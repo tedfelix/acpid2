@@ -82,9 +82,7 @@ This option changes the maximum number of non-root socket connections which
 can be made to the \fBacpid\fP socket.  Default is \fI256\fP.
 .TP 12
 .BI \-d "\fR, \fP" \-\-debug
-This option increases the \fBacpid\fP debug level by one.  If the debug level
-is non-zero, \fBacpid\fP will run in the foreground, and will log to
-stderr, in addition to the regular syslog.
+This option increases the \fBacpid\fP debug level by one.
 .TP
 .BI \-e "\fR, \fP" \-\-eventfile " filename"
 This option changes the event file from which \fBacpid\fP reads events.
@@ -94,7 +92,8 @@ Default is \fI/proc/acpi/event\fP.
 This option forces \fBacpid\fP to use the Linux kernel input layer and netlink interface for ACPI events.
 .TP
 .BI \-f "\fR, \fP" \-\-foreground
-This option keeps \fBacpid\fP in the foreground by not forking at startup.
+This option keeps \fBacpid\fP in the foreground by not forking at startup,
+and makes it log to stderr instead of syslog.
 .TP
 .BI \-l "\fR, \fP" \-\-logevents
 This option tells \fBacpid\fP to log information about all events and actions.

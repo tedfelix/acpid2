@@ -42,7 +42,6 @@
 /*
  * acpid.c
  */
-extern int acpid_debug;
 extern int logevents;
 extern const char *progname;
 extern int tpmutefix;
