@@ -25,7 +25,7 @@ Suggestions
       sudo systemctl stop acpid acpid.socket
 
 - To make testing more convenient, you can run acpid from a shell as 
-  "acpid -ld" to get maximum logging.  Use Ctrl-C to stop acpid.
+  "acpid -fld" to get maximum logging.  Use Ctrl-C to stop acpid.
 
 Normal Paths
 
@@ -92,10 +92,10 @@ Run acpid without the -l option and make sure no events are logged to syslog.
 Run acpid with the -l option and make sure events are logged to syslog.
 
 * debug mode
-Run acpid with the -d option and note that it runs in the foreground and 
+Run acpid with the -fd option and note that it runs in the foreground and
 provides debugging info to the console.
 acpid also supports up to 4 debug levels in the event handler.  Might want 
-to try "-dddd" and see what happens.
+to try "-fdddd" and see what happens.
 
 * foreground mode
 Run acpid with the -f option and note that it runs in the foreground.
