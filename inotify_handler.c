@@ -139,8 +139,14 @@ void open_inotify(void)
 	wd = inotify_add_watch(fd, ACPID_INPUTLAYERDIR, IN_CREATE | IN_DELETE);
 
 	if (wd < 0) {
-		acpid_log(LOG_ERR, "inotify_add_watch() failed: %s (%d)",
-			strerror(errno), errno);
+		if (errno == ENOENT) {
+			/* Common with headless devices. */
+			acpid_log(LOG_WARNING, "inotify_add_watch(): input layer not found");
+		} else {
+			acpid_log(LOG_ERR, "inotify_add_watch() failed: %s (%d)",
+				strerror(errno), errno);
+		}
+
 		close(fd);			
 		return;
 	}
