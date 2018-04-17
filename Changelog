@@ -1,6 +1,14 @@
-* 2.0.29  2016-??-15  Ted Felix <ted@tedfelix.com>
+* 2.0.29  2018-04-16  Ted Felix <ted@tedfelix.com>
   - 2.0.29 release
     (configure.ac)  (Ted Felix)
+  - Decouple -d and -f options.  Bug #15.
+    (acpid.8 acpid.c acpid.h log.c log.h TESTPLAN) (Casper Ti. Vector)
+  - Rename acpid_debug -> debug_level.
+    (acpid.c event.c log.c log.h) (Ted Felix)
+  - Standards: man page command references.
+    (acpid.8 kacpimon/kacpimon.8) (Ted Felix)
+  - Log missing input layer as a warning.
+    (inotify_handler.c) (Ted Felix)
 
 * 2.0.28  2016-09-15  Ted Felix <ted@tedfelix.com>
   - 2.0.28 release
