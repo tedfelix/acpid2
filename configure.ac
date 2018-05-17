@@ -31,8 +31,6 @@ AC_TYPE_SSIZE_T
 
 # Checks for library functions.
 AC_FUNC_FORK
-AC_FUNC_MALLOC
-AC_FUNC_REALLOC
 AC_FUNC_STRNLEN
 AC_CHECK_FUNC(fchown, AC_DEFINE(HAVE_FCHOWN, 1, "Define if fchown() exists"), AC_MSG_ERROR(["fchown() not found"]))
 AC_CHECK_FUNC(chmod, AC_DEFINE(HAVE_CHMOD, 1, "Define if chmod() exists"), AC_MSG_ERROR(["chmod() not found"]))
@@ -41,7 +39,7 @@ AC_CHECK_FUNC(fstatat, AC_DEFINE(HAVE_FSTATAT, 1, "Define if fstatat() exists"),
 AC_CHECK_FUNC(openat, AC_DEFINE(HAVE_OPENAT, 1, "Define if openat() exists"), AC_MSG_ERROR(["openat() not found"]))
 AC_CHECK_FUNC(asprintf, AC_DEFINE(HAVE_ASPRINTF, 1, "Define if asprintf() exists"), AC_MSG_ERROR(["asprintf() not found"]))
 # These are actually required.  Should switch to above form.
-AC_CHECK_FUNCS([alarm dup2 isfdtype memset regcomp select socket strcasecmp strdup strerror strrchr strtol])
+AC_CHECK_FUNCS([malloc realloc alarm dup2 isfdtype memset regcomp select socket strcasecmp strdup strerror strrchr strtol])
 
 # removed for now as kacpimon was not included in dist target
 #AC_ARG_ENABLE([kacpimon],AS_HELP_STRING([--enable-kacpimon], [Build kacpimon]))
