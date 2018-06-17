@@ -65,5 +65,11 @@ fi
 
 # No power managment system appears to be running.  Just initiate a plain 
 # shutdown.
-/sbin/shutdown -h now "Power button pressed"
+CURRENT_INIT=`ps -p 1 -o comm=`
+if [ "$CURRENT_INIT" = "openrc-init" ]
+then
+	/sbin/openrc-shutdown -p
+else
+	/sbin/shutdown -h now "Power button pressed"
+fi
 
