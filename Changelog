@@ -1,4 +1,4 @@
-* 2.0.30  2018-??-15  Ted Felix <ted@tedfelix.com>
+* 2.0.30  2018-07-18  Ted Felix <ted@tedfelix.com>
   - 2.0.30 release
     (configure.ac)  (Ted Felix)
   - configure: Don't use AC_FUNC_MALLOC, AC_FUNC_REALLOC.
