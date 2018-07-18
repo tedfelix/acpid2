@@ -1,6 +1,12 @@
 * 2.0.30  2018-??-15  Ted Felix <ted@tedfelix.com>
   - 2.0.30 release
     (configure.ac)  (Ted Felix)
+  - configure: Don't use AC_FUNC_MALLOC, AC_FUNC_REALLOC.
+    (configure.ac)  (Robin Gloster <mail@glob.in>)
+  - samples: powerbtn: extend the list of known PMS
+    (powerbtn.sh)  (Andrey Utkin <andrey_utkin@gentoo.org>)
+  - samples: powerbtn: fix kde4 power management detection
+    (powerbtn.sh)  (Andrey Utkin <andrey_utkin@gentoo.org>)
 
 * 2.0.29  2018-04-16  Ted Felix <ted@tedfelix.com>
   - 2.0.29 release
