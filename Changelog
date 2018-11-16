@@ -1,6 +1,11 @@
-* 2.0.31  2018-??-15  Ted Felix <ted@tedfelix.com>
+* 2.0.31  2018-11-15  Ted Felix <ted@tedfelix.com>
   - 2.0.31 release
     (configure.ac)  (Ted Felix)
+  - Add events for keyboard illumination up/down
+    (input_layer.c)  (Lars-Dominik Braun)
+  - kacpimon: Bump connection limit to 100
+    Debian #909399
+    (kacpimon/connection_list.c)  (Ted Felix)
 
 * 2.0.30  2018-07-18  Ted Felix <ted@tedfelix.com>
   - 2.0.30 release
