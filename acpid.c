@@ -205,7 +205,7 @@ handle_cmdline(int *argc, char ***argv)
 		{"socketgroup", 1, 0, 'g'},
 		{"socketmode", 1, 0, 'm'},
 		{"socketfile", 1, 0, 's'},
-		{"nosocket", 1, 0, 'S'},
+		{"nosocket", 0, 0, 'S'},
 		{"pidfile", 1, 0, 'p'},
 		{"lockfile", 1, 0, 'L'},
 		{"netlink", 0, 0, 'n'},
