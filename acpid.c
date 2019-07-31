@@ -99,11 +99,11 @@ main(int argc, char **argv)
 	}
 
 	if (netlink) {
-		/* open the input layer */
-		open_input();
-
 		/* watch for new input layer devices */
 		open_inotify();
+
+		/* open the input layer */
+		open_input();
 
 		/* open netlink */
 		open_netlink();

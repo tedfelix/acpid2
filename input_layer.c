@@ -490,6 +490,13 @@ void open_input(void)
 	for (i = 0; i < globbuf.gl_pathc; ++i) {
 		filename = globbuf.gl_pathv[i];
 
+		/* Skip if already opened.  Need this to account for the
+		 * possibility that an inotify may have snuck in.  */
+		if (find_connection_name(filename) != NULL) {
+			success = 1;
+			continue;
+		}
+
 		/* open this input layer device file */
 		if (open_inputfile(filename) == 0)
 			success = 1;
