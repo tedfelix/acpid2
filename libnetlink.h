@@ -7,6 +7,10 @@
 #include <linux/netlink.h>
 #include <linux/rtnetlink.h>
 
+#ifndef MSG_CMSG_CLOEXEC
+#define MSG_CMSG_CLOEXEC 0x40000000
+#endif
+
 struct rtnl_handle
 {
 	int			fd;
