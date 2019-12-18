@@ -54,6 +54,7 @@ getXconsole
 PMS="gnome-power-manager kpowersave xfce4-power-manager"
 PMS="$PMS guidance-power-manager.py dalston-power-applet"
 PMS="$PMS mate-power-manager org_kde_powerdevil"
+PMS="$PMS gsd-power"
 
 # If one of those is running or any of several others,
 if pidof x $PMS > /dev/null ||
