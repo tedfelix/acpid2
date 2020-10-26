@@ -69,7 +69,7 @@ fi
 CURRENT_INIT=`ps -p 1 -o comm=`
 if [ "$CURRENT_INIT" = "openrc-init" ]
 then
-	/sbin/openrc-shutdown -p
+	/sbin/openrc-shutdown -p now
 else
 	/sbin/shutdown -h now "Power button pressed"
 fi
