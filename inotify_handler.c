@@ -90,6 +90,11 @@ static void process_inotify(int fd)
 			acpid_log(LOG_DEBUG, "inotify about to open: %s", devname);
 
 			open_inputfile(devname);
+		} else if (curevent->mask & IN_ATTRIB) {
+			if (! find_connection_name(devname)) {
+				acpid_log(LOG_DEBUG, "inotify about to open after attribute change: %s", devname);
+				open_inputfile(devname);
+			}
 		}
 
 		/* if this is a delete */
@@ -136,7 +141,7 @@ void open_inotify(void)
 	acpid_log(LOG_DEBUG, "inotify fd: %d", fd);
 
 	/* watch for files being created or deleted in /dev/input */
-	wd = inotify_add_watch(fd, ACPID_INPUTLAYERDIR, IN_CREATE | IN_DELETE);
+	wd = inotify_add_watch(fd, ACPID_INPUTLAYERDIR, IN_CREATE | IN_ATTRIB | IN_DELETE);
 
 	if (wd < 0) {
 		if (errno == ENOENT) {
