@@ -90,8 +90,10 @@ static void process_inotify(int fd)
 			acpid_log(LOG_DEBUG, "inotify about to open: %s", devname);
 
 			open_inputfile(devname);
-		} else if (curevent->mask & IN_ATTRIB) {
-			if (! find_connection_name(devname)) {
+		} else if (curevent->mask & IN_ATTRIB) {  /* Attribute change. */
+			/* If this device isn't already opened, try to open it.
+			   The permissions may have changed. */
+			if (!find_connection_name(devname)) {
 				acpid_log(LOG_DEBUG, "inotify about to open after attribute change: %s", devname);
 				open_inputfile(devname);
 			}
@@ -140,8 +142,12 @@ void open_inotify(void)
 	
 	acpid_log(LOG_DEBUG, "inotify fd: %d", fd);
 
-	/* watch for files being created or deleted in /dev/input */
-	wd = inotify_add_watch(fd, ACPID_INPUTLAYERDIR, IN_CREATE | IN_ATTRIB | IN_DELETE);
+	/* Watch for files being created or deleted in /dev/input.
+	   We also watch for attribute changes as those might come in when
+	   udev changes permissions on a file and we are then allowed to
+	   open it. */
+	wd = inotify_add_watch(fd, ACPID_INPUTLAYERDIR,
+			IN_CREATE | IN_ATTRIB | IN_DELETE);
 
 	if (wd < 0) {
 		if (errno == ENOENT) {

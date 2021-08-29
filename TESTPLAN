@@ -22,7 +22,7 @@ Suggestions
 - You can kill acpid with "sudo killall acpid".  Or if you are using upstart:
       sudo initctl stop acpid
   For systemd:
-      sudo systemctl stop acpid acpid.socket
+      sudo systemctl stop acpid acpid.socket acpid.path
 
 - To make testing more convenient, you can run acpid from a shell as 
   "acpid -fld" to get maximum logging.  Use Ctrl-C to stop acpid.
