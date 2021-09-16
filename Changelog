@@ -1,6 +1,14 @@
-* 2.0.33  20??-??-15  Ted Felix <ted@tedfelix.com>
+* 2.0.33  2021-09-15  Ted Felix <ted@tedfelix.com>
   - 2.0.33 release
     (configure.ac)  (Ted Felix)
+  - Detect newer GNOME power manager.
+    (powerbtn.sh)  (Andrey Utkin <andrey_utkin@gentoo.org>)
+  - openrc-shutdown: Set shutdown time to 'now'.
+    (powerbtn.sh)  (Jonathan Davies <jpds@protonmail.com>)
+  - Attempt to open input layer devices whose permissions have changed.
+    (inotify_handler.c)  (Torsten Hilbrich <torsten.hilbrich@secunet.com>)
+  - Comments added.
+    (TESTPLAN inotify_handler.c)  (Ted Felix)
 
 * 2.0.32  2019-08-15  Ted Felix <ted@tedfelix.com>
   - 2.0.32 release
