@@ -33,6 +33,13 @@
 #include <string.h>
 #include <errno.h>
 
+#include <sys/socket.h>
+
+/* Missing from some socket.h. */
+#ifndef MSG_CMSG_CLOEXEC
+#define MSG_CMSG_CLOEXEC 0x40000000
+#endif
+
 /* local */
 #include "acpid.h"
 #include "log.h"

@@ -17,7 +17,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <net/if_arp.h>
+
 #include <sys/socket.h>
+
+/* Missing from some socket.h. */
+#ifndef MSG_CMSG_CLOEXEC
+#define MSG_CMSG_CLOEXEC 0x40000000
+#endif
+
 #include <netinet/in.h>
 #include <string.h>
 #include <errno.h>
