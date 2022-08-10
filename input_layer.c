@@ -250,13 +250,26 @@ static const char *
 event_string(struct input_event event)
 {
 	unsigned i;
+	static int logged = 0;
 	
+	if (debug_level >= 3  &&  !logged)
+		acpid_log(LOG_DEBUG, "event_string() dumping event table...");
+
 	/* for each entry in the event table */
 	/* ??? Is there a faster way?  This is triggered every time the user
 	 *     presses a key.  Maybe a simple hash algorithm?  Or a simple check
 	 *     for very common keys (alphanumeric) and bail before this?  */
 	for (i = 0; i < DIM(evtab); ++i)
 	{
+		if (debug_level >= 3  &&  !logged) {
+			acpid_log(LOG_DEBUG,
+				"  Event Table:  Type: %hu  Code: %hu  Value: %d  Str: %s",
+				evtab[i].event.type,
+				evtab[i].event.code,
+				evtab[i].event.value,
+				evtab[i].str);
+		}
+
 		/* if this is a matching event, return its string */
 		if (event.type == evtab[i].event.type  &&
 			event.code == evtab[i].event.code  &&
@@ -264,6 +277,9 @@ event_string(struct input_event event)
 			return evtab[i].str;
 		}
 	}
+
+	/* Just log it once. */
+	logged = 1;
 	
 	return NULL;
 }
@@ -330,6 +346,18 @@ static void process_input(int fd)
 		acpid_log(LOG_WARNING, "input layer unexpected length: "
 			"%zd   expected: %zd", nbytes, sizeof(event));
 		return;
+	}
+
+	if (debug_level >= 2) {
+		/* Logging in the style of kacpimon. */
+		if (event.type == EV_SYN) {
+			acpid_log(LOG_DEBUG, "Input Layer:  Sync");
+		} else {
+			/* format and display the event struct in decimal */
+			acpid_log(LOG_DEBUG, "Input Layer:  "
+				"Type: %hu  Code: %hu  Value: %d",
+				event.type, event.code, event.value);
+		}
 	}
 
 	c = find_connection(fd);
