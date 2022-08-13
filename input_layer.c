@@ -197,6 +197,60 @@ static struct evtab_entry evtab[] = {
 
 };
 
+/*-----------------------------------------------------------------*/
+/* Compare all three key fields. */
+static int event_compare_3(const void *lhs, const void *rhs)
+{
+	const struct evtab_entry *levent = lhs;
+	const struct evtab_entry *revent = rhs;
+	int diff = 0;
+
+	diff = levent->type - revent->type;
+	if (diff != 0)
+		return diff;
+
+	diff = levent->code - revent->code;
+	if (diff != 0)
+		return diff;
+
+	return levent->value - revent->value;
+}
+
+/*-----------------------------------------------------------------*/
+/* Just compare type and code.  For need_event(). */
+static int event_compare_2(const void *lhs, const void *rhs)
+{
+	const struct evtab_entry *levent = lhs;
+	const struct evtab_entry *revent = rhs;
+	int diff = 0;
+
+	diff = levent->type - revent->type;
+	if (diff != 0)
+		return diff;
+
+	return levent->code - revent->code;
+}
+
+/*----------------------------------------------------------------------*/
+
+static void dump_events(void)
+{
+	int i;
+
+	acpid_log(LOG_DEBUG, "Dumping event table...");
+
+	for (i = 0; i < DIM(evtab); ++i)
+	{
+		acpid_log(LOG_DEBUG,
+			"  Event Table:  Type: %u  Code: %u  Value: %d  Str: %s",
+			evtab[i].type,
+			evtab[i].code,
+			evtab[i].value,
+			evtab[i].str);
+	}
+}
+
+/*----------------------------------------------------------------------*/
 /* special support for the MUTE key, as the key toggles we want to
  * consider repeated keys but don't report them all the time. We just
  * ensure that the number of key presses (MOD 2) is correct.
@@ -227,39 +281,25 @@ mute_string(struct input_event event)
 static const char *
 event_string(struct input_event event)
 {
-	unsigned i;
-	static int logged = 0;
-	
-	if (debug_level >= 3  &&  !logged)
-		acpid_log(LOG_DEBUG, "event_string() dumping event table...");
+	struct evtab_entry search_event;
+	struct evtab_entry *found_event;
 
-	/* for each entry in the event table */
-	/* ??? Is there a faster way?  This is triggered every time the user
-	 *     presses a key.  Maybe a simple hash algorithm?  Or a simple check
-	 *     for very common keys (alphanumeric) and bail before this?  */
-	for (i = 0; i < DIM(evtab); ++i)
-	{
-		if (debug_level >= 3  &&  !logged) {
-			acpid_log(LOG_DEBUG,
-				"  Event Table:  Type: %hu  Code: %hu  Value: %d  Str: %s",
-				evtab[i].type,
-				evtab[i].code,
-				evtab[i].value,
-				evtab[i].str);
-		}
+	search_event.type = event.type;
+	search_event.code = event.code;
+	search_event.value = event.value;
 
-		/* if this is a matching event, return its string */
-		if (event.type == evtab[i].type  &&
-			event.code == evtab[i].code  &&
-			event.value == evtab[i].value) {
-			return evtab[i].str;
-		}
-	}
+	/* Use binary search since the table is getting fairly large. */
+	found_event = bsearch(
+		&search_event,
+		evtab,
+		DIM(evtab),
+		sizeof(struct evtab_entry),
+		event_compare_3);
 
-	/* Just log it once. */
-	logged = 1;
-	
-	return NULL;
+	if (!found_event)
+		return NULL;
+
+	return found_event->str;
 }
 
 /*-----------------------------------------------------------------*/
@@ -267,18 +307,24 @@ event_string(struct input_event event)
 static int 
 need_event(int type, int code)
 {
-	unsigned i;
+	struct evtab_entry search_event;
+	struct evtab_entry *found_event;
 
-	/* for each entry in the event table */
-	for (i = 0; i < DIM(evtab); ++i) {
-		/* if we found a matching event */
-		if (type == evtab[i].type  &&
-			code == evtab[i].code) {
-			return 1;
-		}
-	}
+	search_event.type = type;
+	search_event.code = code;
 
-	return 0;
+	/* Use binary search since the table is getting fairly large. */
+	found_event = bsearch(
+		&search_event,
+		evtab,
+		DIM(evtab),
+		sizeof(struct evtab_entry),
+		event_compare_2);
+
+	if (!found_event)
+		return 0;
+
+	return 1;
 }
 
 /*-----------------------------------------------------------------*/
@@ -488,6 +534,13 @@ void open_input(void)
 	glob_t globbuf;
 	unsigned i;
 	int success = 0;
+
+	/* Sort the event table. */
+	qsort(evtab, DIM(evtab), sizeof(struct evtab_entry),
+          event_compare_3);
+
+	if (debug_level >= 3)
+		dump_events();
 
 	/* get all the matching event filenames */
 	glob(ACPID_INPUTLAYERFILES, 0, NULL, &globbuf);
