@@ -448,22 +448,38 @@ static void process_input(int fd)
 }
 
 #define BITS_PER_LONG (sizeof(long) * 8)
+/* longs needed for x bits.  More of a BITS_TO_LONGS(bits). */
 #define NBITS(x) ((((x)-1)/BITS_PER_LONG)+1)
 #define OFF(x)  ((x)%BITS_PER_LONG)
 #define LONG(x) ((x)/BITS_PER_LONG)
 #define test_bit(bit, array)	((array[LONG(bit)] >> OFF(bit)) & 1)
 
-/*--------------------------------------------------------------------*/
-/* returns non-zero if the file descriptor supports one of the events */
-/* supported by event_string().  */
+/*--------------------------------------------------------------------
+ * Returns non-zero if the file descriptor supports one of the events
+ * supported by event_string().
+ *
+ * ??? Performance: This uses a lot of CPU.  Why not generate an event
+ *     bitmap from evtab, then compare the two using AND (&) long by
+ *     long and return 1 if any are non-zero?  That should reduce CPU
+ *     usage to 1/32 or possibly MUCH less.  This would also get rid
+ *     of need_event() and event_compare_2().
+ */
 static int 
 has_event(int fd)
 {
 	int type, code;
+	/*
+	 * Event bitmap.  Use test_bit(code, bit[type]) to read.
+	 * Need a set_bit() to write.
+	 * ??? Memory: We could save memory here by having only two rows.
+	 *     One for the type bitmap and one for the code bitmap we are
+	 *     currently checking.
+	 */
 	unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
 
 	memset(bit, 0, sizeof(bit));
-	/* get the event type bitmap */
+	/* Get the event bitmap for type == 0 (EV_SYN). */
+	/* This is a special row that indicates which types are supported. */
 	ioctl(fd, EVIOCGBIT(0, sizeof(bit[0])), bit[0]);
 
 	/* for each event type */
@@ -472,7 +488,7 @@ has_event(int fd)
 		if (test_bit(type, bit[0])) {
 			/* skip sync */
 			if (type == EV_SYN) continue;
-			/* get the event code mask */
+			/* get the event bitmap for this type */
 			ioctl(fd, EVIOCGBIT(type, sizeof(bit[type])), bit[type]);
 			/* for each event code */
 			for (code = 0; code < KEY_MAX; code++) {
