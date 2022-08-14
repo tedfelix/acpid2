@@ -119,8 +119,14 @@ static struct evtab_entry evtab[] = {
 	{ EV_KEY, KEY_NEXTSONG, 1, "cd/next CDNEXT 00000080 00000000" },
 	{ EV_KEY, KEY_PREVIOUSSONG, 1, "cd/prev CDPREV 00000080 00000000" },
 	{ EV_KEY, KEY_PLAYPAUSE, 1, "cd/play CDPLAY 00000080 00000000" },
+	{ EV_KEY, KEY_PLAYCD, 1, "cd/play2 CDPLAY2 00000080 00000000" },
+	{ EV_KEY, KEY_PAUSECD, 1, "cd/pause CDPAUSE 00000080 00000000" },
 	{ EV_KEY, KEY_STOPCD, 1, "cd/stop CDSTOP 00000080 00000000" },
-
+	{ EV_KEY, KEY_EJECTCD, 1, "cd/eject CDEJECT 00000080 00000000" },
+	{ EV_KEY, KEY_EJECTCLOSECD, 1,
+			"cd/ejectclose CDEJECTCLOSE 00000080 00000000" },
+	{ EV_KEY, KEY_FASTFORWARD, 1, "button/ff FF 00000080 00000000" },
+	{ EV_KEY, KEY_REWIND, 1, "button/rew REW 00000080 00000000" },
 
 	/*** JACKS ***/
 
@@ -175,6 +181,14 @@ static struct evtab_entry evtab[] = {
 			"button/kbdillumdown KBILLUMDOWN 00000080 00000000" },
 	{ EV_KEY, KEY_COPY, 1, "button/copy COPY 00000080 00000000" },
 	{ EV_KEY, KEY_RESTART, 1, "button/restart RSTR 00000080 00000000" },
+	{ EV_KEY, KEY_KPENTER, 1, "button/kpenter KPENTER 00000080 00000000" },
+	{ EV_KEY, KEY_UP, 1, "button/up UP 00000080 00000000" },
+	{ EV_KEY, KEY_LEFT, 1, "button/left LEFT 00000080 00000000" },
+	{ EV_KEY, KEY_RIGHT, 1, "button/right RIGHT 00000080 00000000" },
+	{ EV_KEY, KEY_DOWN, 1, "button/down DOWN 00000080 00000000" },
+	{ EV_KEY, KEY_MENU, 1, "button/menu MENU 00000080 00000000" },
+	{ EV_KEY, KEY_BACK, 1, "button/back BACK 00000080 00000000" },
+	{ EV_KEY, KEY_HOMEPAGE, 1, "button/homepage HOMEPAGE 00000080 00000000" },
 
 #if 0
 	/* These "EV_MSC, 4, x" events cause trouble.  They are triggered */
