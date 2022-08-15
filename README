@@ -40,11 +40,13 @@ Older versions (<= 2.0.14) of acpid simply required "make" to build:
 
 CONTACT
 
-Any comments or patches for this branch should be sent to Ted Felix:
-http://www.tedfelix.com  ( ted -at- tedfelix -dot- com )
+Any comments or patches for this branch should be sent to Ted Felix
+<ted@tedfelix.com>.
 
-You can also fork the git repo on sourceforge and submit changes that way:
-http://sourceforge.net/u/tedfelix/acpid2/
+You can also fork the git repo on sourceforge or github and submit changes that way:
+
+  https://sourceforge.net/projects/acpid2/
+  https://github.com/tedfelix/acpid2
 
 --------------------------------------------------------------------
 OLD README
