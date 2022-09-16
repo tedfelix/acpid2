@@ -1,6 +1,18 @@
-* 2.0.34  202x-xx-xx  Ted Felix <ted@tedfelix.com>
+* 2.0.34  2022-09-15  Ted Felix <ted@tedfelix.com>
   - 2.0.34 release
     (configure.ac)  (Ted Felix)
+  - Add MSG_CMSG_CLOEXEC for systems that are missing it.
+    (libnetlink.h libnetlink.c kacpimon/libnetlink.h
+    kacpimon/libnetlink.c)
+    (Fabrice Fontaine <fontaine.fabrice@gmail.com>)
+  - Fix a bug with input layer event table not working on 32-bit builds
+    with 64-bit time types.  (input_layer.c)  (Ted Felix)
+  - Use binary search to find input layer events in the table.
+    (input_layer.c)  (Ted Felix)
+  - Use AC_PROG_CC instead of the obsolete AC_PROG_CC_STDC.
+    (configure.ac)  (Ted Felix)
+  - Add support for more input layer events.  (input_layer.c)
+    (Ted Felix)
 
 * 2.0.33  2021-09-15  Ted Felix <ted@tedfelix.com>
   - 2.0.33 release
