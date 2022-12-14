@@ -54,8 +54,8 @@ int non_root_clients;
 static int
 isfdtype(int fd, int fdtype)
 {
-	struct stat64 st;
-	if (fstat64(fd, &st) != 0)
+	struct stat st;
+	if (fstat(fd, &st) != 0)
 		return -1;
 	return ((st.st_mode & S_IFMT) == (mode_t)fdtype);
 }
