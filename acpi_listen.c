@@ -110,9 +110,9 @@ main(int argc, char **argv)
 }
 
 static struct option opts[] = {
-	{"count", 0, 0, 'c'},
+	{"count", 1, 0, 'c'},
 	{"socketfile", 1, 0, 's'},
-	{"time", 0, 0, 't'},
+	{"time", 1, 0, 't'},
 	{"version", 0, 0, 'v'},
 	{"help", 0, 0, 'h'},
 	{NULL, 0, 0, 0},
