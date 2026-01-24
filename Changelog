@@ -1,6 +1,13 @@
 * 2.0.35  202x-xx-xx  Ted Felix <ted@tedfelix.com>
   - 2.0.35 release
     (configure.ac)  (Ted Felix)
+  - sock.c: Replace stat64 with stat.  [81df3ad695]
+    (sock.c)  (Khem Raj <raj.khem@gmail.com>)
+  - acpi_listen: Fix broken --count and --time options.  [0138f410a6]
+    (acpi_listen.c)  (Umut Ulas Aydin <uaydin@amazon.de>)
+  - input_layer: fix sign-compare warning in dump_events.  [697cc1137d]
+    (input_layer.c)
+    (Heinrich Schuchardt <heinrich.schuchardt@canonical.com>)
 
 * 2.0.34  2022-09-15  Ted Felix <ted@tedfelix.com>
   - 2.0.34 release
