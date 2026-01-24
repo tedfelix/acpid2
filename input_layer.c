@@ -249,7 +249,7 @@ static int event_compare_2(const void *lhs, const void *rhs)
 
 static void dump_events(void)
 {
-	int i;
+	size_t i;
 
 	acpid_log(LOG_DEBUG, "Dumping event table...");
 
